@@ -1,0 +1,54 @@
+#!/usr/bin/env bash
+#
+# Pre-commit hook — runs typecheck, lint, and tests scoped to what changed.
+# Installed automatically by `bun install` via the `prepare` script.
+
+set -euo pipefail
+
+staged=$(git diff --cached --name-only)
+
+relay_changed=false
+app_changed=false
+
+while IFS= read -r file; do
+  case "$file" in
+    relay/*) relay_changed=true ;;
+    src/*|app.json|tsconfig.json|eslint.config.js) app_changed=true ;;
+  esac
+done <<< "$staged"
+
+# Don't trigger app checks for root-level config like package.json — only
+# for actual app source files and app-specific configs.
+
+if [ "$relay_changed" = true ]; then
+  if [ ! -d relay/node_modules ]; then
+    echo "⚠ relay/node_modules missing, skipping relay checks (run: cd relay && bun install)"
+  else
+    echo "→ relay: typecheck"
+    ( cd relay && bun run typecheck ) || { echo "✗ relay typecheck failed"; exit 1; }
+
+    echo "→ relay: test"
+    ( cd relay && bun test src ) || { echo "✗ relay tests failed"; exit 1; }
+  fi
+fi
+
+if [ "$app_changed" = true ]; then
+  if [ ! -d node_modules ]; then
+    echo "⚠ node_modules missing, skipping app checks (run: bun install)"
+  else
+    echo "→ app: typecheck"
+    bun run typecheck || { echo "✗ app typecheck failed"; exit 1; }
+
+    echo "→ app: lint"
+    bun run lint || { echo "✗ app lint failed"; exit 1; }
+
+    echo "→ app: test"
+    bun test src || { echo "✗ app tests failed"; exit 1; }
+  fi
+fi
+
+if [ "$relay_changed" = false ] && [ "$app_changed" = false ]; then
+  echo "(no typecheckable files staged, skipping)"
+fi
+
+echo "✓ pre-commit checks passed"

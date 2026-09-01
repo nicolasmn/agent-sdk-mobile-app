@@ -9,7 +9,8 @@
     "android": "expo run:android",
     "lint": "expo lint",
     "typecheck": "tsc --noEmit",
-    "test": "bun test src"
+    "test": "bun test src",
+    "prepare": "scripts/install-hooks.sh"
   },
   "dependencies": {
     "@gorhom/bottom-sheet": "^5.2.6",
