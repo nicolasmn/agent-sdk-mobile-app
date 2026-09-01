@@ -1,15 +1,6 @@
 {
   "$schema": "https://schema.railpack.com",
   "buildAptPackages": ["build-essential", "python3"],
-  "steps": {
-    "install": {
-      "commands": ["npm install"]
-    },
-    "build": {
-      "inputs": [{ "step": "install" }],
-      "commands": ["npm run build"]
-    }
-  },
   "deploy": {
     "startCommand": "node dist/index.js"
   }
