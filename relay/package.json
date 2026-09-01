@@ -10,8 +10,7 @@
     "test": "bun test src"
   },
   "dependencies": {
-    "@letta-ai/letta-agent-sdk": "^0.7.1",
-    "expo-server-sdk": "^3.7.0"
+    "@letta-ai/letta-agent-sdk": "^0.7.1"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
