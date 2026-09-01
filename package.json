@@ -10,7 +10,7 @@
     "lint": "expo lint",
     "typecheck": "tsc --noEmit",
     "test": "bun test src",
-    "prepare": "scripts/install-hooks.sh"
+    "prepare": "husky"
   },
   "dependencies": {
     "@gorhom/bottom-sheet": "^5.2.6",
@@ -48,6 +48,13 @@
     "@types/react": "~19.2.2",
     "eslint": "^9.36.0",
     "eslint-config-expo": "~57.0.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.4.1",
     "typescript": "~6.0.3"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": "eslint --fix",
+    "src/**/*.{ts,tsx}": "tsc --noEmit",
+    "relay/**/*.ts": "bash -c 'cd relay && tsc --noEmit'"
   }
 }
