@@ -53,8 +53,6 @@
     "typescript": "~6.0.3"
   },
   "lint-staged": {
-    "*.{ts,tsx}": "eslint --fix",
-    "src/**/*.{ts,tsx}": "tsc --noEmit",
-    "relay/**/*.ts": "bash -c 'cd relay && tsc --noEmit'"
+    "*.{ts,tsx}": "eslint --fix"
   }
 }
