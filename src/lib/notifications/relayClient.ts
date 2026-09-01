@@ -9,7 +9,7 @@
 import * as SecureStore from "expo-secure-store";
 
 const RELAY_URL_KEY = "letta.relay.url";
-const DEFAULT_RELAY_URL = "http://localhost:3000";
+const DEFAULT_RELAY_URL = "https://agent-sdk-mobile-app-production.up.railway.app";
 
 /** Get the relay URL from secure storage or fall back to default. */
 export async function getRelayUrl(): Promise<string> {
